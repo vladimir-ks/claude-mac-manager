@@ -1,8 +1,18 @@
 # Claude Mac Manager
 
+[![Tests](https://github.com/vladimir-ks/claude-mac-manager/workflows/Tests/badge.svg)](https://github.com/vladimir-ks/claude-mac-manager/actions/workflows/test.yml)
+[![Lint](https://github.com/vladimir-ks/claude-mac-manager/workflows/Lint/badge.svg)](https://github.com/vladimir-ks/claude-mac-manager/actions/workflows/lint.yml)
+[![codecov](https://codecov.io/gh/vladimir-ks/claude-mac-manager/branch/master/graph/badge.svg)](https://codecov.io/gh/vladimir-ks/claude-mac-manager)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Author:** Vladimir K.S.
+**Version:** 0.0.1 (Pre-Alpha)
 **Created:** 2025-11-24
 **Purpose:** Comprehensive macOS system management toolkit
+
+> ⚠️ **Development Status:** This project is in early development (v0.0.1). Core functionality is being implemented. Not ready for production use.
 
 ---
 
@@ -164,9 +174,96 @@ All dependencies safely removed with restoration paths documented.
 
 ---
 
+## Development Setup
+
+### Prerequisites
+- macOS 13+ (Ventura or later)
+- Python 3.10+
+- Poetry 1.7.1+
+- Git
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/vladimir-ks/claude-mac-manager.git
+cd claude-mac-manager
+
+# Install dependencies
+poetry install
+
+# Install pre-commit hooks
+poetry run pre-commit install
+
+# Run tests
+poetry run pytest
+
+# Run CLI
+poetry run cmm --version
+poetry run cmm status
+```
+
+### Development Commands
+
+```bash
+# Format code
+poetry run black .
+
+# Lint code
+poetry run ruff check .
+
+# Type check
+poetry run mypy claude_mac_manager/
+
+# Run tests with coverage
+poetry run pytest --cov
+
+# Run safety-critical tests only
+poetry run pytest tests/safety/ -m safety
+
+# Install as editable package
+poetry install
+
+# Build package
+poetry build
+```
+
+### Testing Philosophy
+
+- **Spec-Driven:** All features start with specifications
+- **Test-First:** Tests before implementation when possible
+- **100% Safety Coverage:** Safety-critical modules require perfect coverage
+- **85% Overall:** Minimum coverage for all code
+- **pyfakefs:** Fake filesystem for safe testing
+
+### Project Structure
+
+```
+claude_mac_manager/
+├── cli.py              # CLI interface
+├── install.py          # Post-install automation
+├── safety/             # Multi-layer safety system
+│   ├── protected_paths.py  # Layer 1: Path protection
+│   └── validator.py        # Layers 2-6: Validation
+├── scanner/            # Filesystem scanning (pending)
+├── analyzer/           # Analysis engine (pending)
+└── database/           # Database operations (pending)
+
+tests/
+├── conftest.py         # Shared fixtures
+├── safety/             # Safety tests (100% coverage required)
+├── unit/               # Unit tests
+├── integration/        # Integration tests
+└── utils/              # Test utilities
+```
+
+---
+
 ## Contributing
 
 This is a personal system management toolkit. Future enhancements will be driven by actual needs and usage patterns.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
 
 **Development Principles:**
 - Safety first (never delete without confirmation)

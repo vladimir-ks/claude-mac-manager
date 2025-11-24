@@ -8,7 +8,7 @@ Author: Vladimir K.S.
 License: MIT
 """
 
-__version__ = "0.1.0"
+__version__ = "0.0.1"
 __author__ = "Vladimir K.S."
 __license__ = "MIT"
 

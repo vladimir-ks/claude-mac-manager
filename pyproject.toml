@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "claude-mac-manager"
-version = "0.1.0"
+version = "0.0.1"
 description = "Comprehensive macOS system management toolkit with disk analysis, cleanup automation, and Claude Code integration"
 authors = ["Vladimir K.S."]
 readme = "README.md"

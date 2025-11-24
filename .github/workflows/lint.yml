@@ -1,0 +1,82 @@
+name: Lint
+
+on:
+  push:
+    branches: [master, main, develop]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  lint:
+    name: Code Quality Checks
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.7.1
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Run black formatting check
+        run: poetry run black --check --diff .
+
+      - name: Run ruff linting
+        run: poetry run ruff check .
+
+      - name: Run mypy type checking
+        run: poetry run mypy claude_mac_manager/
+
+      - name: Check for trailing whitespace
+        run: |
+          ! git grep -I -n '[ \t]$' -- '*.py' '*.yml' '*.yaml' '*.md' || \
+          (echo "❌ Trailing whitespace found" && exit 1)
+
+      - name: Validate YAML files
+        run: |
+          for file in $(find . -name "*.yml" -o -name "*.yaml"); do
+            python -c "import yaml; yaml.safe_load(open('$file'))" || exit 1
+          done
+
+  security:
+    name: Security Checks
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Run safety check on dependencies
+        run: |
+          poetry run pip install safety
+          poetry run safety check --json || echo "⚠️ Security vulnerabilities found"
+        continue-on-error: true
+
+      - name: Check for secrets in code
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+        continue-on-error: true
