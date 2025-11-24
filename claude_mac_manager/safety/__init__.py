@@ -23,6 +23,7 @@ from .validator import (
     validate_deletion,
     DeletionValidator,
     ValidationError,
+    get_deletable_categories,
 )
 
 __all__ = [
@@ -35,4 +36,5 @@ __all__ = [
     "validate_deletion",
     "DeletionValidator",
     "ValidationError",
+    "get_deletable_categories",
 ]
